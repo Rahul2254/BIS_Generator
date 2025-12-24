@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Label Generator 101x152</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📦 Label Generator (101mm x 152mm)</h1>
+        
+        <div class="input-section">
+            <label>Manufacturer Name:</label>
+            <input type="text" id="mfg-name" value="SHOPDRIVE">
+
+            <label>Address:</label>
+            <textarea id="address-input" rows="3">SR NO37/1/4/3/1, MOHAN MARBLELANE, NEAR BALAJI HOTEL, KHADIMACHINE CHOWK, PISOLIROAD, PISOLI,, HAVELI., KHONDHWA KH, PUNE, MAHARASHTRA, INDIA - 411048.</textarea>
+
+            <label>Product Name:</label>
+            <input type="text" id="product-name" value="BABY MAT">
+
+            <label>Item No.:</label>
+            <input type="text" id="item-no" value="PLAYMAT_ROAD-FOREST_6.5x5">
+
+            <label>Series No.:</label>
+            <input type="text" id="series-no" value="Mat Series">
+
+            <label>Nature of Commodity:</label>
+            <input type="text" id="commodity" value="TOYS">
+
+            <label>Starting Age:</label>
+            <input type="text" id="age" value="2 months+">
+
+            <label>Standard Unit:</label>
+            <input type="text" id="unit" value="1 PCS">
+
+            <label>Batch No.:</label>
+            <input type="text" id="batch" value="003">
+
+            <label>Year & Month of Mfg.:</label>
+            <input type="text" id="mfg-date" value="December-2025">
+
+            <label>MRP (Incl of All Taxes):</label>
+            <input type="text" id="mrp" value="₹2,999.00">
+
+            <label>Origin:</label>
+            <input type="text" id="origin" value="Made in INDIA">
+
+            <label>Customer Care:</label>
+            <input type="text" id="care" value="shopdrivecare@gmail.com, 8999294802">
+
+            <label>FNSKU (Barcode):</label>
+            <input type="text" id="fnsku" value="X001DSSI69">
+
+            <button onclick="generateLabel()">Generate Preview</button>
+            <button onclick="downloadPDF()" id="download-btn" disabled>Download PDF</button>
+        </div>
+
+        <hr>
+
+        <h2>Preview</h2>
+        
+        <div id="label-area">
+            <div id="label-content">
+                
+                <div class="header-section">
+                    <p><strong>Name of manufacturer:</strong> <span id="lbl-mfg-name" class="bold-text"></span></p>
+                    <p class="address-text"><strong>Address:</strong> <span id="lbl-address"></span></p>
+                </div>
+
+                <div class="middle-section">
+                    <div class="left-details">
+                        <p>Product Name.: <span id="lbl-product-name" class="bold-text"></span></p>
+                        <p>Item No. <span id="lbl-item-no" class="bold-text"></span></p>
+                        <p>Series No: <span id="lbl-series-no" class="bold-text"></span></p>
+                        <p>Nature of commodity: <span id="lbl-commodity" class="bold-text"></span></p>
+                        <p>Starting age: <span id="lbl-age" class="bold-text"></span></p>
+                        <p>Standard unit: <span id="lbl-unit" class="bold-text"></span></p>
+                        <p>Batch no.: <span id="lbl-batch" class="bold-text"></span></p>
+                        <p>Year & month of Mfg.: <span id="lbl-mfg-date" class="bold-text"></span></p>
+                        <p style="margin-top: 8px;">MRP.: <span id="lbl-mrp" class="bold-text"></span> (Incl of All Taxes)</p>
+                        <p>Origin.: <span id="lbl-origin" class="bold-text"></span></p>
+                    </div>
+
+                    <div class="isi-box">
+                        <p class="isi-header">IS 9873: Part 1:2019</p>
+                        
+                        <div class="isi-logo">
+                        <div class="isi-logo">
+                            <img src="ISI_logo.png" alt="BIS Logo" id="bis-logo-img">
+                        </div>
+                        </div>
+
+                        <p class="isi-cml">CM/L- 7500313310</p>
+                        <p class="isi-details">For details of BIS certification</p>
+                        <p class="isi-details">Please visit www.bis.gov.in</p>
+                    </div>
+                </div>
+
+                <div class="lower-section">
+                    <p style="margin-top: 10px;">Customer Care: <span id="lbl-care" class="bold-text"></span></p>
+                </div>
+
+                <div class="barcode-wrapper">
+                    <svg id="barcode-svg"></svg>
+                    <p id="lbl-fnsku-text"></p>
+                </div>
+
+                <div class="warning-box">
+                    <strong>WARNING:</strong>
+                    <ol>
+                        <li>THIS PACKAGE IS NOT A TOY. TO AVOID ANY DANGER, PLEASE KEEP IT AWAY FROM BABIES AND CHILDREN.</li>
+                        <li>THE PACKAGE MUST BE DISMANTLED BY ADULT. PLAY UNDER SUPERVISION IS RECOMMENDED.</li>
+                        <li>TO AVOID DANGER OF WRONG SWALLOWING AND CHOKING HAZARD, PLEASE KEEP THE DISASSEMBLY, BROKEN, DEFORMED TOYS AWAY FROM BABIES AND CHILDREN.</li>
+                        <li>PLEASE KEEP THE PACKAGE BECAUSE IT CONTAINS IMPORTANT INFORMATION.</li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
