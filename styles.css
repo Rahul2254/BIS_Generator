@@ -121,7 +121,7 @@ p {
 .isi-details { font-size: 7px; text-align: center; margin: 0; line-height: 1.2; }
 
 .isi-logo {
-    width: 190px;
+    width: 80px;
     height: 40px;
     margin: 2px 0;
 }
@@ -175,4 +175,5 @@ p {
     height: 100%;
     object-fit: contain; /* Keeps the aspect ratio correct */
     display: block;
+
 }
