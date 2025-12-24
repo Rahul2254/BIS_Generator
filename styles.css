@@ -60,7 +60,7 @@ button {
     width: 101mm;
     height: 152mm;
     background: white;
-    border: 1px solid #333;
+    border: none;
     padding: 5mm;
     box-sizing: border-box;
     position: relative;
@@ -177,4 +177,5 @@ p {
     display: block;
 
 }
+
 
