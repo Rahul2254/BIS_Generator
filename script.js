@@ -1,4 +1,5 @@
-let labelGenerated = false;
+// We can remove the 'labelGenerated' flag check or keep it just for initial load, 
+// but for the download button, we will force generation.
 
 function generateLabel() {
     // 1. Get Values from Inputs
@@ -38,31 +39,44 @@ function generateLabel() {
     try {
         JsBarcode("#barcode-svg", fnsku, {
             format: "CODE128",
-            displayValue: false, // We show the text manually below specifically
+            displayValue: false,
             height: 50,
             margin: 0,
             width: 2.5 
         });
         
-        labelGenerated = true;
+        // Enable button if it was disabled (though we rely less on this now)
         document.getElementById('download-btn').disabled = false;
     } catch (e) {
-        alert("Barcode Error: " + e.message);
+        console.error("Barcode Error: " + e.message);
     }
 }
 
 async function downloadPDF() {
-    if (!labelGenerated) return;
+    // FIX: Force generate label before downloading to get fresh data
+    generateLabel(); 
+
+    // Add a small delay to ensure DOM updates (though usually synchronous, barcode SVG might need a tick)
+    await new Promise(resolve => setTimeout(resolve, 100));
 
     const labelElement = document.getElementById('label-area');
     const { jsPDF } = window.jspdf;
 
     try {
+        // Change button text to indicate processing
+        const btn = document.getElementById('download-btn');
+        const originalText = btn.textContent;
+        btn.textContent = "Generating PDF...";
+        btn.disabled = true;
+
         // High scale for crisp text on 4x6 label
         const canvas = await html2canvas(labelElement, {
             scale: 3, 
             useCORS: true,
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            // Ensure we capture the full size even if scrolled out of view
+            windowWidth: labelElement.scrollWidth,
+            windowHeight: labelElement.scrollHeight
         });
 
         const imgData = canvas.toDataURL('image/png');
@@ -79,11 +93,17 @@ async function downloadPDF() {
         const fnsku = document.getElementById('fnsku').value || "label";
         doc.save(`Label_${fnsku}.pdf`);
 
+        // Reset button
+        btn.textContent = originalText;
+        btn.disabled = false;
+
     } catch (error) {
         console.error("PDF Error:", error);
         alert("Failed to download PDF.");
+        document.getElementById('download-btn').textContent = "Download PDF";
+        document.getElementById('download-btn').disabled = false;
     }
 }
 
-// Initial Generation
+// Initial Generation on Load
 document.addEventListener('DOMContentLoaded', generateLabel);
