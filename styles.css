@@ -10,12 +10,15 @@ body {
 .container {
     background-color: #fff;
     padding: 20px;
+    width: 100%;
     max-width: 800px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* Prevents layout breakage on small screens */
+    box-sizing: border-box; 
 }
 
 .input-section {
@@ -34,7 +37,7 @@ body {
 
 .input-section input, .input-section textarea {
     width: 100%;
-    padding: 6px;
+    padding: 8px; /* Slightly larger for easier tapping on mobile */
     margin-top: 2px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -43,30 +46,60 @@ body {
 
 button {
     margin-top: 15px;
-    padding: 10px 20px;
+    padding: 12px 20px; /* Larger touch target */
     cursor: pointer;
     background-color: #28a745;
     color: white;
     border: none;
     border-radius: 4px;
+    font-size: 14px;
+    width: 100%; /* Full width buttons on mobile look better */
+    max-width: 200px; /* Cap width for desktop */
 }
+
 #download-btn { background-color: #007bff; margin-left: 10px; }
 #download-btn:disabled { background-color: #ccc; cursor: not-allowed; }
 
+/* Buttons wrapper to align them nicely */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+hr {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
 /* ================= LABEL STYLES ================= */
 
+/* Wrapper to handle horizontal scroll on mobile */
+.preview-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Allows scrolling if label is wider than phone screen */
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
 #label-area {
-    /* 101mm x 152mm */
+    /* Fixed Dimensions for Print Accuracy: 101mm x 152mm */
     width: 101mm;
     height: 152mm;
+    min-width: 101mm; /* Forces width even on small screens */
+    min-height: 152mm;
     background: white;
-    border: none;
+    border: 1px solid #333;
     padding: 5mm;
     box-sizing: border-box;
     position: relative;
-    /* Main font looks serif in the sample (Times New Roman) */
     font-family: "Times New Roman", Times, serif; 
     color: #000;
+    flex-shrink: 0; /* Prevents flexbox from squashing the label */
 }
 
 #label-content {
@@ -77,13 +110,11 @@ button {
 
 p {
     margin: 3px 0;
-    font-size: 10.5px; /* Tuned to fit 4x6 width */
+    font-size: 10.5px;
     line-height: 1.3;
 }
 
-.bold-text {
-    font-weight: bold;
-}
+.bold-text { font-weight: bold; }
 
 .address-text {
     font-size: 10px;
@@ -99,25 +130,23 @@ p {
     align-items: flex-start;
 }
 
-.left-details {
-    width: 60%;
-}
+.left-details { width: 60%; }
 
 /* ISI Box */
 .isi-box {
     width: 30%;
     border: 1px solid #000;
-    border-radius: 15px; /* Rounded corners */
+    border-radius: 15px;
     padding: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: Arial, sans-serif; /* Standard font for logos */
+    font-family: Arial, sans-serif;
 }
 
-.isi-header { font-size: 8px;  margin-bottom: 2px; }
-.isi-cml { font-size: 9px;  margin-top: 4px; margin-bottom: 2px;}
+.isi-header { font-size: 8px; margin-bottom: 2px; }
+.isi-cml { font-size: 9px; margin-top: 4px; margin-bottom: 2px;}
 .isi-details { font-size: 7px; text-align: center; margin: 0; line-height: 1.2; }
 
 .isi-logo {
@@ -125,20 +154,23 @@ p {
     height: 40px;
     margin: 2px 0;
 }
+.isi-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
 
 /* Barcode Section */
-/* Barcode Section */
 .barcode-wrapper {
-    margin-top: 10px; /* Changed from 'auto' to a small fixed gap */
+    margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
     width: 100%;
 }
 
-#barcode-svg {
-    width: 80%;
-    height: 50px;
-}
+#barcode-svg { width: 80%; height: 50px; }
+
 #lbl-fnsku-text {
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -149,7 +181,7 @@ p {
 .warning-box {
     border: 1px solid #000;
     padding: 5px;
-    font-family: Arial, sans-serif; /* Warning usually sans-serif */
+    font-family: Arial, sans-serif;
 }
 
 .warning-box strong {
@@ -158,10 +190,7 @@ p {
     margin-bottom: 3px;
 }
 
-.warning-box ol {
-    margin: 0;
-    padding-left: 12px;
-}
+.warning-box ol { margin: 0; padding-left: 12px; }
 
 .warning-box li {
     font-size: 7px;
@@ -170,12 +199,25 @@ p {
     font-weight: bold;
 }
 
-.isi-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Keeps the aspect ratio correct */
-    display: block;
-
+/* ================= MOBILE RESPONSIVENESS ================= */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    .container {
+        padding: 15px;
+    }
+    button {
+        width: 100%;
+        margin-left: 0 !important; /* Reset margin for stacked buttons */
+        margin-top: 10px;
+    }
+    #download-btn {
+        margin-left: 0; 
+    }
+    /* The label stays fixed size, but the wrapper allows scrolling */
+    .preview-wrapper {
+        border: 1px dashed #ccc; /* Visual cue that this is a scrollable area */
+        background-color: #f9f9f9;
+    }
 }
-
-
